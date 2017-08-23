@@ -20,11 +20,13 @@ app.post('/users', (req, res) => {
   new_user.save().then((doc) => {
     res.send(doc)
   }, (error) => {
-    res.status(400).send(e);
-  })
+    res.status(400).send(error);
+  });
 });
 
 
 app.listen(port, () => {
   console.log(`Started app on port ${port}`);
 });
+
+module.exports = {app}
