@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var User = require('./user');
+const {Schema} = require('mongoose');
 
-var Post = mongoose.model('Post', {
+var postSchema = new Schema({
   user: {
     type: User,
     required: [true, 'device_id field is required']
@@ -34,5 +35,9 @@ var Post = mongoose.model('Post', {
       index: "2dsphere"
     }}
   });
+
+postSchema.index({votes: 1});
+
+var Post = mongoose.model('Post', postSchema);
 
 module.exports = {Post}

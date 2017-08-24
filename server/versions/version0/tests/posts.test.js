@@ -6,19 +6,39 @@ const {app} = require('./../../../server');
 const {User} = require('./../models/user');
 const {Post} = require('./../models/post');
 
-// const users = [{
-//   _id: new ObjectID(),
-//   device_id: 'some device id'
-// }, {
-//   _id: new ObjectID(),
-//   device_id: 'some other device id'
-// }]
+
+const users = [{
+  _id: new ObjectID(),
+  device_id: 'some device id'
+}, {
+  _id: new ObjectID(),
+  device_id: 'some other device id'
+}]
 
 beforeEach((done) => {
-  Post.remove({}).then(() => {
-    return User.insertMany([]);
-  }).then(() => done());
+  User.remove({}).then(() => {
+    return User.insertMany(users);
+  }).then(() => {
+    var array = []
+    for(var i=0; i < 100; i++) {
+      array.push(new Post({
+        _id : new ObjectID(),
+        user: users[0]._id,
+        media_type: 'picture',
+        media_url: 'req.body.media_url',
+        geometry: {
+          coordinates: [i % 180, i % 90]
+        }
+      }));
+    }
+
+    Post.remove({}).then(() => {
+      return Post.insertMany(array);
+    }).then(() => done());
+  });
 });
+
+
 
 function addVersion(path) {
   return '/v0' + path;
@@ -56,7 +76,7 @@ describe('POST ' + addVersion('/posts'), () => {
         }
 
         Post.find().then((posts) => {
-          expect(posts.length).toBe(1);
+          expect(posts.length).toBe(101);
           done()
         }).catch((e) => done(e))
       })
@@ -73,9 +93,47 @@ describe('POST ' + addVersion('/posts'), () => {
         }
 
         Post.find().then((posts) => {
-          expect(posts.length).toBe(0);
+          expect(posts.length).toBe(100);
           done();
         }).catch((e) => done(e));
       });
   });
+});
+
+describe('GET ' + addVersion('/posts'), () => {
+  it('should get POSTS', (done) => {
+
+    request(app)
+      .get(addVersion('/posts?radius=10000000000'))
+      .expect((res) => {
+        expect(res.body.data.length).toBe(50);
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Post.find().then((posts) => {
+          expect(posts.length).toBe(100);
+          done()
+        }).catch((e) => done(e))
+      })
+  });
+
+  // it('should not create a new post with invalid body data', (done) => {
+  //   request(app)
+  //     .post(addVersion('/posts'))
+  //     .send({})
+  //     .expect(400)
+  //     .end((err, res) => {
+  //       if(err) {
+  //         return done(err)
+  //       }
+  //
+  //       Post.find().then((posts) => {
+  //         expect(posts.length).toBe(0);
+  //         done();
+  //       }).catch((e) => done(e));
+  //     });
+  // });
 });
