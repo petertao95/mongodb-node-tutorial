@@ -6,7 +6,7 @@ var {mongoose} = require('./db/mongoose');
 var {User} = require('./models/user')
 
 var app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -25,6 +25,9 @@ app.post('/users', (req, res) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.send('Breadcrumbs API');
+});
 
 app.get('/users', (req, res) => {
   User.find().then((users) => {
@@ -46,7 +49,7 @@ app.get('/users/:id', (req, res) => {
     }
     res.send({user: user});
   }).catch((e) => {
-    res.status(400).send(e);
+    res.status(400).send();
   });
 });
 
