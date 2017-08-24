@@ -5,7 +5,7 @@ var User = mongoose.model('User', {
     type: String,
     required: true,
     minlength: 1,
-    trim: true
+    unique: true
   },
   created_at: {
     type: Date,

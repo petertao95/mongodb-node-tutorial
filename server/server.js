@@ -1,3 +1,5 @@
+require('./config/config');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -9,6 +11,20 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+
+
+
+// url paths
+// GET /
+// GET /users/:id
+// POST /users
+// GET /posts
+//   latitude
+//   longitude
+//   radius
+// POST /posts
+
+
 
 app.post('/users', (req, res) => {
   // create new users
