@@ -3,16 +3,15 @@ require('./config/config');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const {ObjectID} = require('mongodb');
 const {mongoose} = require('./db/mongoose');
-const {User} = require('./models/user')
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-
+// initialize routes
+app.use('/v0', require('./routes/version0/root'));
 
 // url paths
 // GET /
@@ -26,48 +25,11 @@ app.use(bodyParser.json());
 
 
 
-app.post('/users', (req, res) => {
-  // create new users
-  // save the users
-
-  var new_user = new User({
-    device_id: req.body.device_id
-  });
-
-  new_user.save().then((doc) => {
-    res.send(doc)
-  }, (error) => {
-    res.status(400).send(error);
-  });
-});
-
 app.get('/', (req, res) => {
   res.send('Breadcrumbs API');
 });
 
-app.get('/users', (req, res) => {
-  User.find().then((users) => {
-    res.send({users});
-  }, (e) => {
-    res.status(400).send(e);
-  });
-});
 
-app.get('/users/:id', (req, res) => {
-  var id = req.params.id;
-  if (!ObjectID.isValid(id)) {
-    res.status(400).send('req not valid');
-  }
-
-  User.findById(id).then((user) => {
-    if(!user) {
-      return res.status(404).send();
-    }
-    res.send({user: user});
-  }).catch((e) => {
-    res.status(400).send();
-  });
-});
 
 
 
