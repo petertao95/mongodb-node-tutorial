@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
+var User = require('./user');
 
 var Post = mongoose.model('Post', {
-  device_id: {
-    type: String,
+  user: {
+    type: User,
     required: [true, 'device_id field is required']
   },
   media_type: {

@@ -2,8 +2,8 @@ const expect = require('expect');
 const request = require('supertest');
 
 var {ObjectID} = require('mongodb');
-const {app} = require('./../../server');
-const {User} = require('./../../models/user');
+const {app} = require('./../../../server');
+const {User} = require('./../models/user');
 
 const users = [{
   _id: new ObjectID(),

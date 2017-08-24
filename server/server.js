@@ -11,17 +11,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 // initialize routes
-app.use('/v0', require('./routes/version0/root'));
-
-// url paths
-// GET /
-// GET /users/:id
-// POST /users
-// GET /posts
-//   latitude
-//   longitude
-//   radius
-// POST /posts
+app.use('/v0', require('./versions/version0/routes/root'));
 
 
 
