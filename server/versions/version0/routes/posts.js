@@ -21,6 +21,9 @@ router.get('/', function(req, res, next) {
      }},
      {"$sort": { "votes": -1 }}
  ], function(err, result) {
+   if (err) {
+     res.status(400).send({error: err})
+   }
    res.send({data: result});
  });
 });
