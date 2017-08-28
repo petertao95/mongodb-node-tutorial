@@ -15,6 +15,10 @@ var postSchema = new Schema({
     type: String,
     required: [true, 'media_url field is required']
   },
+  thumbnail_url: {
+    type: String,
+    required: [true, 'thumbnail_url field is required']
+  },
   votes: {
     type: Number,
     default: 0,

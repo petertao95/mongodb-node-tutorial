@@ -21,8 +21,6 @@ router.get('/', function(req, res, next) {
      }},
      {"$sort": { "votes": -1 }}
  ], function(err, result) {
-   console.log(err);
-   console.log(result);
    res.send({data: result});
  });
 });
@@ -31,6 +29,7 @@ router.post('/', function(req, res, next) {
   var new_post = new Post({
     user: req.body.user_id,
     media_type: req.body.media_type,
+    thumbnail_url: req.body.thumbnail_url,
     media_url: req.body.media_url,
     geometry: {
       coordinates: [req.body.longitude, req.body.latitude]

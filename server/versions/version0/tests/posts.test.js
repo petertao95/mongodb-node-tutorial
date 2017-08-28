@@ -26,8 +26,9 @@ beforeEach((done) => {
         user: users[0]._id,
         media_type: 'picture',
         media_url: 'req.body.media_url',
+        thumbnail_url: 'req.body.media_url',
         geometry: {
-          coordinates: [i % 180, i % 90]
+          coordinates: [i % 180, i % 90]  // longitude, latitude
         }
       }));
     }
@@ -50,6 +51,7 @@ describe('POST ' + addVersion('/posts'), () => {
       "user_id": "599e2683adb42f2442de2404",
       "media_type": "image",
       "media_url": "https://media4.s-nbcnews.com/j/newscms/2016_36/1685951/ss-160826-twip-05_8cf6d4cb83758449fd400c7c3d71aa1f.nbcnews-ux-2880-1000.jpg",
+      "thumbnail_url": "https://media4.s-nbcnews.com/j/newscms/2016_36/1685951/ss-160826-twip-05_8cf6d4cb83758449fd400c7c3d71aa1f.nbcnews-ux-2880-1000.jpg",
       "latitude": -16.5004,
       "longitude": 151.7415
     }
